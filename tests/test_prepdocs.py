@@ -44,7 +44,7 @@ async def test_compute_embedding_success(monkeypatch):
                             object="embedding",
                         )
                     ],
-                    model="text-embedding-ada-002",
+                    model="text-embedding-3-large",
                     usage=Usage(prompt_tokens=8, total_tokens=8),
                 )
             )
@@ -129,7 +129,7 @@ async def test_compute_embedding_ratelimiterror_batch(monkeypatch, capsys):
         embeddings = AzureOpenAIEmbeddingService(
             open_ai_service="x",
             open_ai_deployment="x",
-            open_ai_model_name="text-embedding-ada-002",
+            open_ai_model_name="text-embedding-3-large",
             credential=MockAzureCredential(),
             disable_batch=False,
             verbose=True,
@@ -147,7 +147,7 @@ async def test_compute_embedding_ratelimiterror_single(monkeypatch, capsys):
         embeddings = AzureOpenAIEmbeddingService(
             open_ai_service="x",
             open_ai_deployment="x",
-            open_ai_model_name="text-embedding-ada-002",
+            open_ai_model_name="text-embedding-3-large",
             credential=MockAzureCredential(),
             disable_batch=True,
             verbose=True,
@@ -174,7 +174,7 @@ async def test_compute_embedding_autherror(monkeypatch, capsys):
         embeddings = AzureOpenAIEmbeddingService(
             open_ai_service="x",
             open_ai_deployment="x",
-            open_ai_model_name="text-embedding-ada-002",
+            open_ai_model_name="text-embedding-3-large",
             credential=MockAzureCredential(),
             disable_batch=False,
             verbose=True,
@@ -186,7 +186,7 @@ async def test_compute_embedding_autherror(monkeypatch, capsys):
         embeddings = AzureOpenAIEmbeddingService(
             open_ai_service="x",
             open_ai_deployment="x",
-            open_ai_model_name="text-embedding-ada-002",
+            open_ai_model_name="text-embedding-3-large",
             credential=MockAzureCredential(),
             disable_batch=True,
             verbose=True,

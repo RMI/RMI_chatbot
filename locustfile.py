@@ -18,10 +18,10 @@ class ChatUser(HttpUser):
                     {
                         "content": random.choice(
                             [
-                                "What is included in my Northwind Health Plus plan that is not in standard?",
-                                "What does a Product Manager do?",
-                                "What happens in a performance review?",
-                                "Whats your whistleblower policy?",
+                                "Explain emissions from steel production.",
+                                "How do landfills create methane?",
+                                "What are the sources of emissions from solar power?",
+                                "Explain upstream, midstream, and downstream oil and gas emissions.",
                             ]
                         ),
                         "role": "user",
@@ -43,12 +43,12 @@ class ChatUser(HttpUser):
             "/chat",
             json={
                 "messages": [
-                    {"content": "What happens in a performance review?", "role": "user"},
+                    {"content": "How do landfills create methane?", "role": "user"},
                     {
-                        "content": "During a performance review, employees will receive feedback on their performance over the past year, including both successes and areas for improvement. The feedback will be provided by the employee's supervisor and is intended to help the employee develop and grow in their role [employee_handbook-3.pdf]. The review is a two-way dialogue between the employee and their manager, so employees are encouraged to be honest and open during the process [employee_handbook-3.pdf]. The employee will also have the opportunity to discuss their goals and objectives for the upcoming year [employee_handbook-3.pdf]. A written summary of the performance review will be provided to the employee, which will include a rating of their performance, feedback, and goals and objectives for the upcoming year [employee_handbook-3.pdf].",
+                        "content": "Landfills contain organic material that breaks down. If this happens in the abscence of oxygen because the landfill is deep or covered, it will create methane instead of carbon dioxide. [report-1.pdf]. This process happens over months, years, and even decades, depending on the material. [report-1.pdf].",
                         "role": "assistant",
                     },
-                    {"content": "Does my plan cover eye exams?", "role": "user"},
+                    {"content": "Explain hydrogen cars.", "role": "user"},
                 ],
                 "context": {
                     "overrides": {

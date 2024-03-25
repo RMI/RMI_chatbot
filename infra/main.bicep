@@ -64,10 +64,10 @@ param openAiSkuName string = 'S0'
 param openAiApiKey string = ''
 param openAiApiOrganization string = ''
 
-param formRecognizerServiceName string = ''
+// param formRecognizerServiceName string = ''
 // param formRecognizerResourceGroupName string = ''
 // param formRecognizerResourceGroupLocation string = location
-param formRecognizerSkuName string = 'S0'
+// param formRecognizerSkuName string = 'S0'
 
 param computerVisionServiceName string = ''
 // param computerVisionResourceGroupName string = ''
@@ -312,19 +312,19 @@ module openAi 'core/ai/cognitiveservices.bicep' = if (openAiHost == 'azure') {
   }
 }
 
-module formRecognizer 'core/ai/cognitiveservices.bicep' = {
-  name: 'formrecognizer'
-  // scope: formRecognizerResourceGroup
-  params: {
-    name: !empty(formRecognizerServiceName) ? formRecognizerServiceName : '${abbrs.cognitiveServicesFormRecognizer}${resourceToken}'
-    kind: 'FormRecognizer'
-    location: location // formRecognizerResourceGroupLocation
-    tags: tags
-    sku: {
-      name: formRecognizerSkuName
-    }
-  }
-}
+// module formRecognizer 'core/ai/cognitiveservices.bicep' = {
+//   name: 'formrecognizer'
+//   // scope: formRecognizerResourceGroup
+//   params: {
+//     name: !empty(formRecognizerServiceName) ? formRecognizerServiceName : '${abbrs.cognitiveServicesFormRecognizer}${resourceToken}'
+//     kind: 'FormRecognizer'
+//     location: location // formRecognizerResourceGroupLocation
+//     tags: tags
+//     sku: {
+//       name: formRecognizerSkuName
+//     }
+//   }
+// }
 
 module computerVision 'core/ai/cognitiveservices.bicep' = if (useGPT4V) {
   name: 'computerVision'
@@ -564,7 +564,7 @@ output AZURE_VISION_ENDPOINT string = useGPT4V ? computerVision.outputs.endpoint
 output VISION_SECRET_NAME string = useGPT4V ? computerVisionSecretName : ''
 output AZURE_KEY_VAULT_NAME string = useKeyVault ? keyVault.outputs.name : ''
 
-output AZURE_FORMRECOGNIZER_SERVICE string = formRecognizer.outputs.name
+// output AZURE_FORMRECOGNIZER_SERVICE string = formRecognizer.outputs.name
 // output AZURE_FORMRECOGNIZER_RESOURCE_GROUP string = formRecognizerResourceGroup.name
 
 output AZURE_SEARCH_INDEX string = searchIndexName

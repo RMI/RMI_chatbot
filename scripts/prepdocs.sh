@@ -66,6 +66,8 @@ if [ -n "$AZURE_TENANT_ID" ]; then
   tenantArg="--tenantid $AZURE_TENANT_ID"
 fi
 
+echo "localPdfParserArg: $localPdfParserArg"
+
 ./scripts/.venv/bin/python ./scripts/prepdocs.py './data/*' --verbose \
 --storageaccount "$AZURE_STORAGE_ACCOUNT" --container "$AZURE_STORAGE_CONTAINER"  \
 --searchservice "$AZURE_SEARCH_SERVICE" --index "$AZURE_SEARCH_INDEX" \
