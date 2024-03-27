@@ -6,10 +6,11 @@
     "configurations": [
         {
             "name": "Python: Quart",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "module": "quart",
             "cwd": "${workspaceFolder}/app/backend",
+            "python": "${workspaceFolder}/app/backend/backend_env/bin/python",
             "env": {
                 "QUART_APP": "main:app",
                 "QUART_ENV": "development",
@@ -30,30 +31,6 @@
             "request": "launch",
             "command": "npm run dev",
             "cwd": "${workspaceFolder}/app/frontend",
-        },
-        {
-            "name": "Debug prepdocs.py",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/scripts/prepdocs.py",
-            "args": [
-                "./data/*",
-                "--verbose",
-                "--storageaccount", "${env:AZURE_STORAGE_ACCOUNT}",
-                "--container", "${env:AZURE_STORAGE_CONTAINER}",
-                "--searchservice", "${env:AZURE_SEARCH_SERVICE}",
-                "--index", "${env:AZURE_SEARCH_INDEX}",
-                "--openaihost", "${env:OPENAI_HOST}",
-                "--openaimodelname", "${env:AZURE_OPENAI_EMB_MODEL_NAME}",
-                "--openaiservice", "${env:AZURE_OPENAI_SERVICE}",
-                "--openaideployment", "${env:AZURE_OPENAI_EMB_DEPLOYMENT}",
-                "--openaikey", "${env:OPENAI_API_KEY}",
-                "--openaiorg", "${env:OPENAI_ORGANIZATION}",
-                "--formrecognizerservice", "${env:AZURE_FORMRECOGNIZER_SERVICE}"
-//                "--novectors"
-            ],
-            "console": "integratedTerminal",
-            "justMyCode": false
         }
     ],
     "inputs": [
