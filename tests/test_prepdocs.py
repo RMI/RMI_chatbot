@@ -46,7 +46,7 @@ async def test_compute_embedding_success(monkeypatch):
                             object="embedding",
                         )
                     ],
-                    model="text-embedding-3-large",
+                    model="text-embedding-ada-002",
                     usage=Usage(prompt_tokens=8, total_tokens=8),
                 )
             )
@@ -132,7 +132,7 @@ async def test_compute_embedding_ratelimiterror_batch(monkeypatch, caplog):
             embeddings = AzureOpenAIEmbeddingService(
                 open_ai_service="x",
                 open_ai_deployment="x",
-                open_ai_model_name="text-embedding-3-large",
+                open_ai_model_name="text-embedding-ada-002",
                 credential=MockAzureCredential(),
                 disable_batch=False,
             )
@@ -149,7 +149,7 @@ async def test_compute_embedding_ratelimiterror_single(monkeypatch, caplog):
             embeddings = AzureOpenAIEmbeddingService(
                 open_ai_service="x",
                 open_ai_deployment="x",
-                open_ai_model_name="text-embedding-3-large",
+                open_ai_model_name="text-embedding-ada-002",
                 credential=MockAzureCredential(),
                 disable_batch=True,
             )
@@ -174,7 +174,7 @@ async def test_compute_embedding_autherror(monkeypatch, capsys):
         embeddings = AzureOpenAIEmbeddingService(
             open_ai_service="x",
             open_ai_deployment="x",
-            open_ai_model_name="text-embedding-3-large",
+            open_ai_model_name="text-embedding-ada-002",
             credential=MockAzureCredential(),
             disable_batch=False,
         )
@@ -185,7 +185,7 @@ async def test_compute_embedding_autherror(monkeypatch, capsys):
         embeddings = AzureOpenAIEmbeddingService(
             open_ai_service="x",
             open_ai_deployment="x",
-            open_ai_model_name="text-embedding-3-large",
+            open_ai_model_name="text-embedding-ada-002",
             credential=MockAzureCredential(),
             disable_batch=True,
         )

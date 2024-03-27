@@ -106,7 +106,7 @@ param embeddingDeploymentName string = ''
 param embeddingDeploymentVersion string = ''
 param embeddingDeploymentCapacity int = 0
 var embedding = {
-  modelName: !empty(embeddingModelName) ? embeddingModelName : 'text-embedding-3-large'
+  modelName: !empty(embeddingModelName) ? embeddingModelName : 'text-embedding-ada-002'
   deploymentName: !empty(embeddingDeploymentName) ? embeddingDeploymentName : 'embedding'
   deploymentVersion: !empty(embeddingDeploymentVersion) ? embeddingDeploymentVersion : '2'
   deploymentCapacity: embeddingDeploymentCapacity != 0 ? embeddingDeploymentCapacity : 30
@@ -121,8 +121,8 @@ param tenantId string = tenant().tenantId
 param authTenantId string = ''
 
 // Used for the optional login and document level access control system
-param useAuthentication bool = false
-param enforceAccessControl bool = false
+param useAuthentication bool = true
+param enforceAccessControl bool = true
 param serverAppId string = ''
 @secure()
 param serverAppSecret string = ''
