@@ -13,6 +13,7 @@ param appServicePlanName string = '' // Set in main.parameters.json
 param backendServiceName string = '' // Set in main.parameters.json
 param resourceGroupName string = '' // Set in main.parameters.json
 
+
 param applicationInsightsDashboardName string = '' // Set in main.parameters.json
 param applicationInsightsName string = '' // Set in main.parameters.json
 param logAnalyticsName string = '' // Set in main.parameters.json
@@ -33,7 +34,6 @@ param useSearchServiceKey bool = searchServiceSkuName == 'free'
 param storageAccountName string = '' // Set in main.parameters.json
 // param storageResourceGroupName string = '' // Set in main.parameters.json
 // param storageResourceGroupLocation string = location
-param storageAccountName string = '' // Set in main.parameters.json
 param storageResourceGroupName string = '' // Set in main.parameters.json
 param storageResourceGroupLocation string = location
 param storageContainerName string = 'content'
@@ -106,7 +106,7 @@ param embeddingDeploymentName string = ''
 param embeddingDeploymentVersion string = ''
 param embeddingDeploymentCapacity int = 0
 var embedding = {
-  modelName: !empty(embeddingModelName) ? embeddingModelName : 'text-embedding-ada-002'
+  modelName: !empty(embeddingModelName) ? embeddingModelName : 'text-embedding-3-large'
   deploymentName: !empty(embeddingDeploymentName) ? embeddingDeploymentName : 'embedding'
   deploymentVersion: !empty(embeddingDeploymentVersion) ? embeddingDeploymentVersion : '2'
   deploymentCapacity: embeddingDeploymentCapacity != 0 ? embeddingDeploymentCapacity : 30
@@ -343,7 +343,7 @@ module openAi 'core/ai/cognitiveservices.bicep' = if (isAzureOpenAiHost) {
   // scope: openAiResourceGroup
   params: {
     name: !empty(openAiServiceName) ? openAiServiceName : '${abbrs.cognitiveServicesAccounts}${resourceToken}'
-    location: openAiResourceGroupLocation
+    location: location // openAiResourceGroupLocation
     tags: tags
     sku: {
       name: openAiSkuName
@@ -370,7 +370,7 @@ module openAi 'core/ai/cognitiveservices.bicep' = if (isAzureOpenAiHost) {
 
 module computerVision 'core/ai/cognitiveservices.bicep' = if (useGPT4V) {
   name: 'computerVision'
-  scope: computerVisionResourceGroup
+  // scope: computerVisionResourceGroup
   params: {
     name: computerVisionName
     kind: 'ComputerVision'
@@ -419,7 +419,7 @@ module searchService 'core/search/search-services.bicep' = {
   // scope: searchServiceResourceGroup
   params: {
     name: !empty(searchServiceName) ? searchServiceName : 'gptkb-${resourceToken}'
-    location: !empty(searchServiceLocation) ? searchServiceLocation : location
+    location: location // !empty(searchServiceLocation) ? searchServiceLocation : location
     tags: tags
     authOptions: {
       aadOrApiKey: {
@@ -612,7 +612,7 @@ module cognitiveServicesRoleBackend 'core/security/role.bicep' = if (useGPT4V) {
 output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenantId
 output AZURE_AUTH_TENANT_ID string = authTenantId
-output AZURE_RESOURCE_GROUP string = resourceGroup.name
+// output AZURE_RESOURCE_GROUP string = resourceGroup.name
 
 // Shared by all OpenAI deployments
 output OPENAI_HOST string = openAiHost

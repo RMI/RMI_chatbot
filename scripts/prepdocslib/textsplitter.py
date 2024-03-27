@@ -21,7 +21,7 @@ class TextSplitter(ABC):
             yield  # pragma: no cover - this is necessary for mypy to type check
 
 
-ENCODING_MODEL = "text-embedding-ada-002"
+ENCODING_MODEL = "text-embedding-3-large"
 
 STANDARD_WORD_BREAKS = [",", ";", ":", " ", "(", ")", "[", "]", "{", "}", "\t", "\n"]
 
@@ -75,7 +75,7 @@ STANDARD_SENTENCE_ENDINGS = [".", "!", "?"]
 # https://www.w3.org/TR/jlreq/#cl-04
 CJK_SENTENCE_ENDINGS = ["。", "！", "？", "‼", "⁇", "⁈", "⁉"]
 
-# NB: text-embedding-3-XX is the same BPE as text-embedding-ada-002
+# NB: text-embedding-3-XX is the same BPE as text-embedding-3-large
 bpe = tiktoken.encoding_for_model(ENCODING_MODEL)
 
 DEFAULT_OVERLAP_PERCENT = 10  # See semantic search article for 10% overlap performance
