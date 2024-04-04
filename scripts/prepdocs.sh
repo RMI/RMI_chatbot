@@ -48,9 +48,11 @@ if [ "$USE_VECTORS" = false ]; then
   disableVectorsArg="--novectors"
 fi
 
-if [ "$USE_LOCAL_PDF_PARSER" = true ]; then
-  localPdfParserArg="--localpdfparser"
-fi
+# if [ "$USE_LOCAL_PDF_PARSER" = true ]; then
+#   localPdfParserArg="--localpdfparser"
+# fi
+
+localPdfParserArg="--localpdfparser"
 
 if [ "$USE_LOCAL_HTML_PARSER" = true ]; then
   localHtmlParserArg="--localhtmlparser"

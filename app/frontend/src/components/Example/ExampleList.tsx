@@ -2,10 +2,16 @@ import { Example } from "./Example";
 
 import styles from "./Example.module.css";
 
+// const DEFAULT_EXAMPLES: string[] = [
+//     "What is included in my Northwind Health Plus plan that is not in standard?",
+//     "What happens in a performance review?",
+//     "What does a Product Manager do?"
+// ];
+
 const DEFAULT_EXAMPLES: string[] = [
-    "What is included in my Northwind Health Plus plan that is not in standard?",
-    "What happens in a performance review?",
-    "What does a Product Manager do?"
+    "Why should I fear Gorebot?",
+    "Explain methane emissions from rice cultivation.",
+    "Explain emissions from the production of aluminum."
 ];
 
 const GPT4V_EXAMPLES: string[] = [

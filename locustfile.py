@@ -17,11 +17,17 @@ class ChatUser(HttpUser):
                 "messages": [
                     {
                         "content": random.choice(
+                            # [
+                            #     "What is included in my Northwind Health Plus plan that is not in standard?",
+                            #     "What does a Product Manager do?",
+                            #     "What happens in a performance review?",
+                            #     "Whats your whistleblower policy?",
+                            # ]
                             [
-                                "What is included in my Northwind Health Plus plan that is not in standard?",
-                                "What does a Product Manager do?",
-                                "What happens in a performance review?",
-                                "Whats your whistleblower policy?",
+                                "Why should I fear Gorebot?",
+                                "Explain methane emissions from rice cultivation.",
+                                "Explain emissions from the production of aluminum.",
+                                "Explain emissions shipping.",
                             ]
                         ),
                         "role": "user",
@@ -43,12 +49,13 @@ class ChatUser(HttpUser):
             "/chat",
             json={
                 "messages": [
-                    {"content": "What happens in a performance review?", "role": "user"},
+                    {"content": "Explain emissions from the production of aluminum.", "role": "user"},
                     {
-                        "content": "During a performance review, employees will receive feedback on their performance over the past year, including both successes and areas for improvement. The feedback will be provided by the employee's supervisor and is intended to help the employee develop and grow in their role [employee_handbook-3.pdf]. The review is a two-way dialogue between the employee and their manager, so employees are encouraged to be honest and open during the process [employee_handbook-3.pdf]. The employee will also have the opportunity to discuss their goals and objectives for the upcoming year [employee_handbook-3.pdf]. A written summary of the performance review will be provided to the employee, which will include a rating of their performance, feedback, and goals and objectives for the upcoming year [employee_handbook-3.pdf].",
+                        # "content": "During a performance review, employees will receive feedback on their performance over the past year, including both successes and areas for improvement. The feedback will be provided by the employee's supervisor and is intended to help the employee develop and grow in their role [employee_handbook-3.pdf]. The review is a two-way dialogue between the employee and their manager, so employees are encouraged to be honest and open during the process [employee_handbook-3.pdf]. The employee will also have the opportunity to discuss their goals and objectives for the upcoming year [employee_handbook-3.pdf]. A written summary of the performance review will be provided to the employee, which will include a rating of their performance, feedback, and goals and objectives for the upcoming year [employee_handbook-3.pdf].",
+                        "content": "Manufacturing aluminum requires a lot of heat, which is generally obtained by burning fossil fuels [Fossil Fuel Operations sector- Oil and Gas Production and Transport Oil, and Gas Refining.docx-3.pdf].",
                         "role": "assistant",
                     },
-                    {"content": "Does my plan cover eye exams?", "role": "user"},
+                    {"content": "Compare that to the situation with steel.", "role": "user"},
                 ],
                 "context": {
                     "overrides": {
