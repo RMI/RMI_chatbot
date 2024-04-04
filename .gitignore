@@ -147,3 +147,6 @@ node_modules
 static/
 
 data/**/*.md5
+
+.DS_Store
+**/.DS_Store
