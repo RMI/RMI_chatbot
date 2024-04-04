@@ -237,7 +237,7 @@ module backend 'core/host/appservice.bicep' = {
   params: {
     name: !empty(backendServiceName) ? backendServiceName : '${abbrs.webSitesAppService}backend-${resourceToken}'
     location: location
-    tags: union(tags, { 'azd-service-name': 'backend_trace' })
+    tags: union(tags, { 'azd-service-name': 'backend' })
     appServicePlanId: appServicePlan.outputs.id
     runtimeName: 'python'
     runtimeVersion: '3.11'
@@ -652,3 +652,4 @@ output AZURE_STORAGE_CONTAINER string = storageContainerName
 output AZURE_USE_AUTHENTICATION bool = useAuthentication
 
 output BACKEND_URI string = backend.outputs.uri
+output backendServiceNameOutput string = backendServiceName
