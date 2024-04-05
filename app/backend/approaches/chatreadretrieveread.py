@@ -52,10 +52,8 @@ class ChatReadRetrieveReadApproach(ChatApproach):
 
     @property
     def system_message_chat_conversation(self):
-        return """Assistant answers questions from users that are interested in information contained in Climate TRACE documents.
-        Answer ONLY with the facts listed in the list of sources below. If there isn't enough information below, say you don't know. Do not generate answers that don't use the sources below. If asking a clarifying question to the user would help, ask the question.
+        return """Assistant only returns API calls in the format api.wastemap.earth/v1/. Assistant must use the description of the API endpoints and the user's question to determine which endpoint should be called, and then return the call to that endpoint in the correct format.
         For tabular information return it as an html table. Do not return markdown format. If the question is not in English, answer in the language used in the question.
-        Each source has a name followed by colon and the actual information, always include the source name for each fact you use in the response. Use square brackets to reference the source, for example [info1.txt]. Don't combine sources, list each source separately, for example [info1.txt][info2.pdf].
         {follow_up_questions_prompt}
         {injected_prompt}
         """
@@ -119,52 +117,52 @@ class ChatReadRetrieveReadApproach(ChatApproach):
         ]
 
         # STEP 1: Generate an optimized keyword search query based on the chat history and the last question
-        query_messages = self.get_messages_from_history(
-            system_prompt=self.query_prompt_template,
-            model_id=self.chatgpt_model,
-            history=history,
-            user_content=user_query_request,
-            max_tokens=self.chatgpt_token_limit - len(user_query_request),
-            few_shots=self.query_prompt_few_shots,
-        )
+        # query_messages = self.get_messages_from_history(
+        #     system_prompt=self.query_prompt_template,
+        #     model_id=self.chatgpt_model,
+        #     history=history,
+        #     user_content=user_query_request,
+        #     max_tokens=self.chatgpt_token_limit - len(user_query_request),
+        #     few_shots=self.query_prompt_few_shots,
+        # )
 
-        chat_completion: ChatCompletion = await self.openai_client.chat.completions.create(
-            messages=query_messages,  # type: ignore
-            # Azure OpenAI takes the deployment name as the model name
-            model=self.chatgpt_deployment if self.chatgpt_deployment else self.chatgpt_model,
-            temperature=0.0,  # Minimize creativity for search query generation
-            max_tokens=100,  # Setting too low risks malformed JSON, setting too high may affect performance
-            n=1,
-            tools=tools,
-            tool_choice="auto",
-        )
+        # chat_completion: ChatCompletion = await self.openai_client.chat.completions.create(
+        #     messages=query_messages,  # type: ignore
+        #     # Azure OpenAI takes the deployment name as the model name
+        #     model=self.chatgpt_deployment if self.chatgpt_deployment else self.chatgpt_model,
+        #     temperature=0.0,  # Minimize creativity for search query generation
+        #     max_tokens=100,  # Setting too low risks malformed JSON, setting too high may affect performance
+        #     n=1,
+        #     tools=tools,
+        #     tool_choice="auto",
+        # )
 
-        query_text = self.get_search_query(chat_completion, original_user_query)
+        # query_text = self.get_search_query(chat_completion, original_user_query)
 
         # STEP 2: Retrieve relevant documents from the search index with the GPT optimized query
 
         # If retrieval mode includes vectors, compute an embedding for the query
-        vectors: list[VectorQuery] = []
-        if has_vector:
-            vectors.append(await self.compute_text_embedding(query_text))
+        # vectors: list[VectorQuery] = []
+        # if has_vector:
+        #     vectors.append(await self.compute_text_embedding(query_text))
 
-        # Only keep the text query if the retrieval mode uses text, otherwise drop it
-        if not has_text:
-            query_text = None
+        # # Only keep the text query if the retrieval mode uses text, otherwise drop it
+        # if not has_text:
+        #     query_text = None
 
-        results = await self.search(
-            top,
-            query_text,
-            filter,
-            vectors,
-            use_semantic_ranker,
-            use_semantic_captions,
-            minimum_search_score,
-            minimum_reranker_score,
-        )
+        # results = await self.search(
+        #     top,
+        #     query_text,
+        #     filter,
+        #     vectors,
+        #     use_semantic_ranker,
+        #     use_semantic_captions,
+        #     minimum_search_score,
+        #     minimum_reranker_score,
+        # )
 
-        sources_content = self.get_sources_content(results, use_semantic_captions, use_image_citation=False)
-        content = "\n".join(sources_content)
+        # sources_content = self.get_sources_content(results, use_semantic_captions, use_image_citation=False)
+        # content = "\n".join(sources_content)
 
         # STEP 3: Generate a contextual and content specific answer using the search results and chat history
 
@@ -181,39 +179,39 @@ class ChatReadRetrieveReadApproach(ChatApproach):
             model_id=self.chatgpt_model,
             history=history,
             # Model does not handle lengthy system messages well. Moving sources to latest user conversation to solve follow up questions prompt.
-            user_content=original_user_query + "\n\nSources:\n" + content,
-            max_tokens=messages_token_limit,
+            user_content=original_user_query, # + "\n\nSources:\n" + content,
+            max_tokens=messages_token_limit
         )
 
-        data_points = {"text": sources_content}
+        # data_points = {"text": sources_content}
 
         extra_info = {
-            "data_points": data_points,
+            # "data_points": data_points,
             "thoughts": [
-                ThoughtStep(
-                    "Prompt to generate search query",
-                    [str(message) for message in query_messages],
-                    (
-                        {"model": self.chatgpt_model, "deployment": self.chatgpt_deployment}
-                        if self.chatgpt_deployment
-                        else {"model": self.chatgpt_model}
-                    ),
-                ),
-                ThoughtStep(
-                    "Search using generated search query",
-                    query_text,
-                    {
-                        "use_semantic_captions": use_semantic_captions,
-                        "use_semantic_ranker": use_semantic_ranker,
-                        "top": top,
-                        "filter": filter,
-                        "has_vector": has_vector,
-                    },
-                ),
-                ThoughtStep(
-                    "Search results",
-                    [result.serialize_for_results() for result in results],
-                ),
+                # ThoughtStep(
+                #     "Prompt to generate search query",
+                #     [str(message) for message in query_messages],
+                #     (
+                #         {"model": self.chatgpt_model, "deployment": self.chatgpt_deployment}
+                #         if self.chatgpt_deployment
+                #         else {"model": self.chatgpt_model}
+                #     ),
+                # ),
+                # ThoughtStep(
+                #     "Search using generated search query",
+                #     query_text,
+                #     {
+                #         "use_semantic_captions": use_semantic_captions,
+                #         "use_semantic_ranker": use_semantic_ranker,
+                #         "top": top,
+                #         "filter": filter,
+                #         "has_vector": has_vector,
+                #     },
+                # ),
+                # ThoughtStep(
+                #     "Search results",
+                #     [result.serialize_for_results() for result in results],
+                # ),
                 ThoughtStep(
                     "Prompt to generate answer",
                     [str(message) for message in messages],
