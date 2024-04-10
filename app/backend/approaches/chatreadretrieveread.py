@@ -52,12 +52,16 @@ class ChatReadRetrieveReadApproach(ChatApproach):
 
     @property
     def system_message_chat_conversation(self):
-        return """Assistant only returns API calls in the format api.wastemap.earth/v1/. Assistant must use the description of the API endpoints and the user's question to determine which endpoint should be called, and then return the call to that endpoint in the correct format.
-        For tabular information return it as an html table. Do not return markdown format. If the question is not in English, answer in the language used in the question.
+        # return """Assistant only returns API calls in the format api.wastemap.earth/v1/. Assistant must use the description of the API endpoints and the user's question to determine which endpoint should be called, and then return the call to that endpoint in the correct format.
+        # For tabular information return it as an html table. Do not return markdown format. If the question is not in English, answer in the language used in the question.
+        # {follow_up_questions_prompt}
+        # {injected_prompt}
+        # """
+
+        return """Assistant answers questions, do your best.
         {follow_up_questions_prompt}
         {injected_prompt}
         """
-
     @overload
     async def run_until_final_call(
         self,
