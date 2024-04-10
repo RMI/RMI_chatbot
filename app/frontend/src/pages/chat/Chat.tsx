@@ -38,7 +38,7 @@ const Chat = () => {
     const [retrieveCount, setRetrieveCount] = useState<number>(3);
     const [retrievalMode, setRetrievalMode] = useState<RetrievalMode>(RetrievalMode.Hybrid);
     const [useSemanticRanker, setUseSemanticRanker] = useState<boolean>(true);
-    const [shouldStream, setShouldStream] = useState<boolean>(true);
+    const [shouldStream, setShouldStream] = useState<boolean>(false);
     const [useSemanticCaptions, setUseSemanticCaptions] = useState<boolean>(false);
     const [excludeCategory, setExcludeCategory] = useState<string>("");
     const [useSuggestFollowupQuestions, setUseSuggestFollowupQuestions] = useState<boolean>(false);
@@ -99,7 +99,8 @@ const Chat = () => {
         try {
             setIsStreaming(true);
             for await (const event of readNDJSONStream(responseBody)) {
-                if (event["choices"] && event["choices"][0]["context"] && event["choices"][0]["context"]["data_points"]) {
+                // if (event["choices"] && event["choices"][0]["context"] && event["choices"][0]["context"]["data_points"]) {
+                if (event["choices"] && event["choices"][0]["context"]) {
                     event["choices"][0]["message"] = event["choices"][0]["delta"];
                     askResponse = event as ChatAppResponse;
                 } else if (event["choices"] && event["choices"][0]["delta"]["content"]) {

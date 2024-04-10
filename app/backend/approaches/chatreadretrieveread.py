@@ -58,7 +58,8 @@ class ChatReadRetrieveReadApproach(ChatApproach):
         # {injected_prompt}
         # """
 
-        return """Assistant answers questions, do your best.
+        return """Assistant writes python code to make plots, based on users questions. If the code does not successfully run, 
+        the error messages will be returned to the assistant. The assistant should then try to correct the errors and return better code. 
         {follow_up_questions_prompt}
         {injected_prompt}
         """
