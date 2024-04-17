@@ -5,6 +5,7 @@ import logging
 import mimetypes
 import os
 from pathlib import Path
+import requests
 from typing import Any, AsyncGenerator, Dict, Union, cast
 
 from azure.core.credentials import AzureKeyCredential
@@ -180,6 +181,45 @@ async def chat(auth_claims: Dict[str, Any]):
             context=context,
             session_state=request_json.get("session_state"),
         )
+
+        python_code = result['choices'][0]['message']['content']
+
+        # URL of the endpoint in the Docker container
+        container_url = 'http://172.17.0.3:5000/runplot'
+
+        # Send the code to the Docker container
+        response_plot = requests.post(container_url, data=python_code)
+
+        # Forward the container's response
+        if response_plot.status_code == 200:
+            with open('temp_plot.jpg', 'wb') as temp_file:
+                temp_file.write(response_plot.content)
+
+            result['choices'][0]['plot'] = response_plot.content
+
+            # return send_file(
+            #     io.BytesIO(response_plot.content),
+            #     mimetype='image/jpeg',
+            #     as_attachment=True,
+            #     attachment_filename='plot.jpg'
+            # )
+        else:
+            retries = 0
+            while retries < 10:
+                retries += 1
+                response_plot = requests.post(container_url, data=response_plot.text)
+                if response_plot.status_code == 200:
+                    with open('temp_plot.jpg', 'wb') as temp_file:
+                        temp_file.write(response_plot.content)
+
+                    result['choices'][0]['plot'] = response_plot.content
+
+                    # return send_file(
+                    #     io.BytesIO(response_plot.content),
+                    #     mimetype='image/jpeg',
+                    #     as_attachment=True,
+                    #     attachment_filename='plot.jpg'
+                    # )
         if isinstance(result, dict):
             return jsonify(result)
         else:

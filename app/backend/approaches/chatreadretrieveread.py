@@ -59,7 +59,16 @@ class ChatReadRetrieveReadApproach(ChatApproach):
         # """
 
         return """Assistant writes python code to make plots, based on users questions. If the code does not successfully run, 
-        the error messages will be returned to the assistant. The assistant should then try to correct the errors and return better code. 
+        the error messages will be returned to the assistant. The assistant should then try to correct the errors and return better code.
+        Don't respond with any human language, respond only with code that can be run directly with python's exec().
+        Your output will be fed DIRECTLY to exec() in python. IT MUST RUN WITH NO MODIFICATIONS. Try to make the plot very pretty for a fancy website!
+
+        Assistant's code will have access to one csv file, which is loaded with pandas to a variable named 'data'. 'data' is a pandas dataframe with methane emissions data from 
+        cities all over the world, from 2010 to 2050, along with a number of columns of landfill/waste data and modeling parameters. Each row has emissions data from one city in one year,
+        so each city's emissions data is contained in 40 successive rows.
+        
+        The column headings are: City, Country, Country ISO3, Latitude, Longitude, Population, Input Data Source, Year of Data Collection, Waste Generation Rate (tons/year), Waste Generation Rate per Capita (kg/person/day), Waste Components: Food (%), Waste Components: Green (%), Waste Components: Wood (%), Waste Components: Paper and Cardboard (%), Waste Components: Textiles (%), Waste Components: Plastic (%), Waste Components: Metal (%), Waste Components: Glass (%), Waste Components: Rubber/Leather (%), Waste Components: Other (%), Diversons: Compost (%), Diversons: Anaerobic Digestion (%), Diversons: Incineration (%), Diversons: Recycling (%), Emissions Source, Year Emissions, Emissions: Food (tons CH4/year), Emissions: Green (tons CH4/year), Emissions: Wood (tons CH4/year), Emissions: Paper and Cardboard (tons CH4/year), Emissions: Textiles (tons CH4/year), Emissions: Total (tons CH4/year), Emissions per Capita (kg CH4/person/year), Percentile: Emissions per Capita (%), Population Growth Rate: Historic (%), Population Growth Rate: Future (%), Average Annual Precipitation (mm/year), Percent of Waste to Landfills with Gas Capture (%), Percent of Waste to Landfills without Gas Capture (%), Percent of Waste to Dumpsites (%), Precipitation Zone, k: Food, k: Green, k: Wood, k: Paper and Cardboard, k: Textiles.
+
         {follow_up_questions_prompt}
         {injected_prompt}
         """
