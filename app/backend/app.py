@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import requests
 from typing import Any, AsyncGenerator, Dict, Union, cast
+from base64 import b64encode
 
 from azure.core.credentials import AzureKeyCredential
 from azure.core.credentials_async import AsyncTokenCredential
@@ -195,14 +196,9 @@ async def chat(auth_claims: Dict[str, Any]):
             with open('temp_plot.jpg', 'wb') as temp_file:
                 temp_file.write(response_plot.content)
 
-            result['choices'][0]['plot'] = response_plot.content
-
-            # return send_file(
-            #     io.BytesIO(response_plot.content),
-            #     mimetype='image/jpeg',
-            #     as_attachment=True,
-            #     attachment_filename='plot.jpg'
-            # )
+            # Encode the binary content in base64 and then decode it to a UTF-8 string for JSON compatibility
+            base64_encoded_plot = b64encode(response_plot.content).decode('utf-8')
+            result['choices'][0]['plot'] = base64_encoded_plot
         else:
             retries = 0
             while retries < 10:
@@ -211,15 +207,8 @@ async def chat(auth_claims: Dict[str, Any]):
                 if response_plot.status_code == 200:
                     with open('temp_plot.jpg', 'wb') as temp_file:
                         temp_file.write(response_plot.content)
-
-                    result['choices'][0]['plot'] = response_plot.content
-
-                    # return send_file(
-                    #     io.BytesIO(response_plot.content),
-                    #     mimetype='image/jpeg',
-                    #     as_attachment=True,
-                    #     attachment_filename='plot.jpg'
-                    # )
+                    result['choices'][0]['plot'] = response_plot.content.decode("utf-8")
+            raise Exception("Failed to generate plot")
         if isinstance(result, dict):
             return jsonify(result)
         else:
