@@ -203,12 +203,19 @@ async def chat(auth_claims: Dict[str, Any]):
             retries = 0
             while retries < 10:
                 retries += 1
-                response_plot = requests.post(container_url, data=response_plot.text)
+                new_message = request_json["messages"] + [{f"content": python_code, "role": "assistant"}, {"content": "Your code didn't work, try again", "role": "user"}]
+                result = await approach.run(
+                    new_message,
+                    stream=request_json.get("stream", False),
+                    context=context,
+                    session_state=request_json.get("session_state"),
+                )
+                python_code = result['choices'][0]['message']['content']
+                response_plot = requests.post(container_url, data=python_code)
                 if response_plot.status_code == 200:
-                    with open('temp_plot.jpg', 'wb') as temp_file:
-                        temp_file.write(response_plot.content)
-                    result['choices'][0]['plot'] = response_plot.content.decode("utf-8")
-            raise Exception("Failed to generate plot")
+                    base64_encoded_plot = b64encode(response_plot.content).decode('utf-8')
+                    result['choices'][0]['plot'] = base64_encoded_plot
+            # raise Exception("Failed to generate plot")
         if isinstance(result, dict):
             return jsonify(result)
         else:

@@ -12,7 +12,7 @@ interface Props {
     answer: ChatAppResponse;
     isSelected?: boolean;
     isStreaming: boolean;
-    onCitationClicked: (filePath: string) => void;
+    //    onCitationClicked: (filePath: string) => void;
     onThoughtProcessClicked: () => void;
     onSupportingContentClicked: () => void;
     onFollowupQuestionClicked?: (question: string) => void;
@@ -23,7 +23,7 @@ export const Answer = ({
     answer,
     isSelected,
     isStreaming,
-    onCitationClicked,
+    //    onCitationClicked,
     onThoughtProcessClicked,
     onSupportingContentClicked,
     onFollowupQuestionClicked,
@@ -31,7 +31,8 @@ export const Answer = ({
 }: Props) => {
     const followupQuestions = answer.choices[0].context.followup_questions;
     const messageContent = answer.choices[0].message.content;
-    const parsedAnswer = useMemo(() => parseAnswerToHtml(messageContent, isStreaming, onCitationClicked), [answer]);
+    //const parsedAnswer = useMemo(() => parseAnswerToHtml(messageContent, isStreaming, onCitationClicked), [answer]);
+    const parsedAnswer = useMemo(() => parseAnswerToHtml(messageContent, isStreaming), [answer]);
 
     const sanitizedAnswerHtml = DOMPurify.sanitize(parsedAnswer.answerHtml);
 
@@ -65,7 +66,7 @@ export const Answer = ({
                 <div className={styles.answerText} dangerouslySetInnerHTML={{ __html: sanitizedAnswerHtml }}></div>
             </Stack.Item>
 
-            {!!parsedAnswer.citations.length && (
+            {/* {!!parsedAnswer.citations.length && (
                 <Stack.Item>
                     <Stack horizontal wrap tokens={{ childrenGap: 5 }}>
                         <span className={styles.citationLearnMore}>Citations:</span>
@@ -79,9 +80,9 @@ export const Answer = ({
                         })}
                     </Stack>
                 </Stack.Item>
-            )}
+            )} */}
 
-            {!!followupQuestions?.length && showFollowupQuestions && onFollowupQuestionClicked && (
+            {/* {!!followupQuestions?.length && showFollowupQuestions && onFollowupQuestionClicked && (
                 <Stack.Item>
                     <Stack horizontal wrap className={`${!!parsedAnswer.citations.length ? styles.followupQuestionsList : ""}`} tokens={{ childrenGap: 6 }}>
                         <span className={styles.followupQuestionLearnMore}>Follow-up questions:</span>
@@ -94,7 +95,7 @@ export const Answer = ({
                         })}
                     </Stack>
                 </Stack.Item>
-            )}
+            )} */}
         </Stack>
     );
 };

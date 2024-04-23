@@ -217,7 +217,7 @@ export function Component(): JSX.Element {
                         <Answer
                             answer={answer}
                             isStreaming={false}
-                            onCitationClicked={x => onShowCitation(x)}
+                            // onCitationClicked={x => onShowCitation(x)}
                             onThoughtProcessClicked={() => onToggleTab(AnalysisPanelTabs.ThoughtProcessTab)}
                             onSupportingContentClicked={() => onToggleTab(AnalysisPanelTabs.SupportingContentTab)}
                         />

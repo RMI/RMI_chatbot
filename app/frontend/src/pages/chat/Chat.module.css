@@ -115,3 +115,11 @@
     margin-right: 20px;
     margin-bottom: 20px;
 }
+
+.plot-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    margin: auto;
+}

@@ -100,6 +100,8 @@ const Chat = () => {
             setIsStreaming(true);
             for await (const event of readNDJSONStream(responseBody)) {
                 // if (event["choices"] && event["choices"][0]["context"] && event["choices"][0]["context"]["data_points"]) {
+                // console.log("Received event:", event);
+                // console.log("Received plot data:", event["choices"][0]["plot"]);
                 if (event["choices"] && event["choices"][0]["context"]) {
                     event["choices"][0]["message"] = event["choices"][0]["delta"];
                     askResponse = event as ChatAppResponse;
@@ -261,16 +263,16 @@ const Chat = () => {
         makeApiRequest(example);
     };
 
-    const onShowCitation = (citation: string, index: number) => {
-        if (activeCitation === citation && activeAnalysisPanelTab === AnalysisPanelTabs.CitationTab && selectedAnswer === index) {
-            setActiveAnalysisPanelTab(undefined);
-        } else {
-            setActiveCitation(citation);
-            setActiveAnalysisPanelTab(AnalysisPanelTabs.CitationTab);
-        }
+    // const onShowCitation = (citation: string, index: number) => {
+    //     if (activeCitation === citation && activeAnalysisPanelTab === AnalysisPanelTabs.CitationTab && selectedAnswer === index) {
+    //         setActiveAnalysisPanelTab(undefined);
+    //     } else {
+    //         setActiveCitation(citation);
+    //         setActiveAnalysisPanelTab(AnalysisPanelTabs.CitationTab);
+    //     }
 
-        setSelectedAnswer(index);
-    };
+    //     setSelectedAnswer(index);
+    // };
 
     const onToggleTab = (tab: AnalysisPanelTabs, index: number) => {
         if (activeAnalysisPanelTab === tab && selectedAnswer === index) {
@@ -280,6 +282,13 @@ const Chat = () => {
         }
 
         setSelectedAnswer(index);
+    };
+
+    const renderPlot = (plotData: string | undefined) => {
+        if (!plotData) {
+            return null;
+        }
+        return <img src={`data:image/jpeg;base64,${plotData}`} alt="Generated Plot" className={styles["plot-image"]} />;
     };
 
     return (
@@ -299,7 +308,7 @@ const Chat = () => {
                         </div>
                     ) : (
                         <div className={styles.chatMessageStream}>
-                            {isStreaming &&
+                            {/* {isStreaming &&
                                 streamedAnswers.map((streamedAnswer, index) => (
                                     <div key={index}>
                                         <UserChatMessage message={streamedAnswer[0]} />
@@ -317,7 +326,7 @@ const Chat = () => {
                                             />
                                         </div>
                                     </div>
-                                ))}
+                                ))} */}
                             {!isStreaming &&
                                 answers.map((answer, index) => (
                                     <div key={index}>
@@ -328,12 +337,13 @@ const Chat = () => {
                                                 key={index}
                                                 answer={answer[1]}
                                                 isSelected={selectedAnswer === index && activeAnalysisPanelTab !== undefined}
-                                                onCitationClicked={c => onShowCitation(c, index)}
+                                                // onCitationClicked={c => onShowCitation(c, index)}
                                                 onThoughtProcessClicked={() => onToggleTab(AnalysisPanelTabs.ThoughtProcessTab, index)}
                                                 onSupportingContentClicked={() => onToggleTab(AnalysisPanelTabs.SupportingContentTab, index)}
                                                 onFollowupQuestionClicked={q => makeApiRequest(q)}
                                                 showFollowupQuestions={useSuggestFollowupQuestions && answers.length - 1 === index}
                                             />
+                                            {renderPlot(answer[1].choices[0].plot)}
                                         </div>
                                     </div>
                                 ))}

@@ -58,6 +58,7 @@ export type ResponseChoice = {
     message: ResponseMessage;
     context: ResponseContext;
     session_state: any;
+    plot?: string;
 };
 
 export type ChatAppResponseOrError = {
