@@ -203,7 +203,8 @@ async def chat(auth_claims: Dict[str, Any]):
             retries = 0
             while retries < 10:
                 retries += 1
-                new_message = request_json["messages"] + [{f"content": python_code, "role": "assistant"}, {"content": "Your code didn't work, try again", "role": "user"}]
+                error_info = response_plot.json()
+                new_message = request_json["messages"] + [{"content": python_code, "role": "assistant"}, {"content": f"Your code didn't work, try again. the error was {error_info['error']}, trace was {error_info['trace']}", "role": "user"}]
                 result = await approach.run(
                     new_message,
                     stream=request_json.get("stream", False),

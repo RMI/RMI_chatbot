@@ -9,7 +9,7 @@ import styles from "./Example.module.css";
 // ];
 
 const DEFAULT_EXAMPLES: string[] = [
-    "Why should I fear Gorebot?",
+    "Show the waste type breakdown for Santiago, Chile",
     "Explain methane emissions from rice cultivation.",
     "Explain emissions from the production of aluminum."
 ];
