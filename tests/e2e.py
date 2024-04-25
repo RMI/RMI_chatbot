@@ -69,18 +69,18 @@ def test_chat(page: Page, live_server_url: str):
     # Check initial page state
     page.goto(live_server_url)
     expect(page).to_have_title("GPT + Enterprise data | Sample")
-    expect(page.get_by_role("heading", name="Gorebot")).to_be_visible()
+    expect(page.get_by_role("heading", name="Plot Generator")).to_be_visible()
     expect(page.get_by_role("button", name="Clear chat")).to_be_disabled()
     expect(page.get_by_role("button", name="Developer settings")).to_be_enabled()
 
     # Ask a question and wait for the message to appear
     page.get_by_placeholder("Type a new question (e.g. explain emissions from shipping)").click()
     page.get_by_placeholder("Type a new question (e.g. explain emissions from shipping)").fill(
-        "Why should I fear Gorebot?"
+        "Show the waste type breakdown for Santiago, Chile"
     )
     page.get_by_role("button", name="Ask question button").click()
 
-    expect(page.get_by_text("Why should I fear Gorebot?")).to_be_visible()
+    expect(page.get_by_text("Show the waste type breakdown for Santiago, Chile")).to_be_visible()
     expect(page.get_by_text("The capital of France is Paris.")).to_be_visible()
     expect(page.get_by_role("button", name="Clear chat")).to_be_enabled()
 
@@ -101,7 +101,7 @@ def test_chat(page: Page, live_server_url: str):
 
     # Clear the chat
     page.get_by_role("button", name="Clear chat").click()
-    expect(page.get_by_text("Why should I fear Gorebot?")).not_to_be_visible()
+    expect(page.get_by_text("Show the waste type breakdown for Santiago, Chile")).not_to_be_visible()
     expect(page.get_by_text("The capital of France is Paris.")).not_to_be_visible()
     expect(page.get_by_role("button", name="Clear chat")).to_be_disabled()
 
@@ -150,11 +150,11 @@ def test_chat_customization(page: Page, live_server_url: str):
     # Ask a question and wait for the message to appear
     page.get_by_placeholder("Type a new question (e.g. explain emissions from shipping)").click()
     page.get_by_placeholder("Type a new question (e.g. explain emissions from shipping)").fill(
-        "Why should I fear Gorebot?"
+        "Show the waste type breakdown for Santiago, Chile"
     )
     page.get_by_role("button", name="Ask question button").click()
 
-    expect(page.get_by_text("Why should I fear Gorebot?")).to_be_visible()
+    expect(page.get_by_text("Show the waste type breakdown for Santiago, Chile")).to_be_visible()
     expect(page.get_by_text("The capital of France is Paris.")).to_be_visible()
     expect(page.get_by_role("button", name="Clear chat")).to_be_enabled()
 
@@ -181,11 +181,11 @@ def test_chat_nonstreaming(page: Page, live_server_url: str):
     # Ask a question and wait for the message to appear
     page.get_by_placeholder("Type a new question (e.g. explain emissions from shipping)").click()
     page.get_by_placeholder("Type a new question (e.g. explain emissions from shipping)").fill(
-        "Why should I fear Gorebot?"
+        "Show the waste type breakdown for Santiago, Chile"
     )
     page.get_by_label("Ask question button").click()
 
-    expect(page.get_by_text("Why should I fear Gorebot?")).to_be_visible()
+    expect(page.get_by_text("Show the waste type breakdown for Santiago, Chile")).to_be_visible()
     expect(page.get_by_text("The capital of France is Paris.")).to_be_visible()
     expect(page.get_by_role("button", name="Clear chat")).to_be_enabled()
 
@@ -214,11 +214,11 @@ def test_chat_followup_streaming(page: Page, live_server_url: str):
     # Ask a question and wait for the message to appear
     page.get_by_placeholder("Type a new question (e.g. explain emissions from shipping)").click()
     page.get_by_placeholder("Type a new question (e.g. explain emissions from shipping)").fill(
-        "Why should I fear Gorebot?"
+        "Show the waste type breakdown for Santiago, Chile"
     )
     page.get_by_label("Ask question button").click()
 
-    expect(page.get_by_text("Why should I fear Gorebot?")).to_be_visible()
+    expect(page.get_by_text("Show the waste type breakdown for Santiago, Chile")).to_be_visible()
     expect(page.get_by_text("The capital of France is Paris.")).to_be_visible()
 
     # There should be a follow-up question and it should be clickable:
@@ -252,11 +252,11 @@ def test_chat_followup_nonstreaming(page: Page, live_server_url: str):
     # Ask a question and wait for the message to appear
     page.get_by_placeholder("Type a new question (e.g. explain emissions from shipping)").click()
     page.get_by_placeholder("Type a new question (e.g. explain emissions from shipping)").fill(
-        "Why should I fear Gorebot?"
+        "Show the waste type breakdown for Santiago, Chile"
     )
     page.get_by_label("Ask question button").click()
 
-    expect(page.get_by_text("Why should I fear Gorebot?")).to_be_visible()
+    expect(page.get_by_text("Show the waste type breakdown for Santiago, Chile")).to_be_visible()
     expect(page.get_by_text("The capital of France is Paris.")).to_be_visible()
 
     # There should be a follow-up question and it should be clickable:
@@ -285,9 +285,9 @@ def test_ask(page: Page, live_server_url: str):
 
     page.get_by_role("link", name="Ask a question").click()
     page.get_by_placeholder("Example: Explain methane emissions from rice cultivation.").click()
-    page.get_by_placeholder("Example: Explain methane emissions from rice cultivation.").fill("Why should I fear Gorebot?")
+    page.get_by_placeholder("Example: Explain methane emissions from rice cultivation.").fill("Show the waste type breakdown for Santiago, Chile")
     page.get_by_placeholder("Example: Explain methane emissions from rice cultivation.").click()
     page.get_by_label("Ask question button").click()
 
-    expect(page.get_by_text("Why should I fear Gorebot?")).to_be_visible()
+    expect(page.get_by_text("WShow the waste type breakdown for Santiago, Chile")).to_be_visible()
     expect(page.get_by_text("The capital of France is Paris.")).to_be_visible()

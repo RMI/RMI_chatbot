@@ -24,7 +24,7 @@ class ChatUser(HttpUser):
                             #     "Whats your whistleblower policy?",
                             # ]
                             [
-                                "Why should I fear Gorebot?",
+                                "Show the waste type breakdown for Santiago, Chile",
                                 "Explain methane emissions from rice cultivation.",
                                 "Explain emissions from the production of aluminum.",
                                 "Explain emissions shipping.",
