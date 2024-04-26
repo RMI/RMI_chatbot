@@ -186,7 +186,7 @@ async def chat(auth_claims: Dict[str, Any]):
         python_code = result['choices'][0]['message']['content']
 
         # URL of the endpoint in the Docker container
-        container_url = 'http://100.100.198.251:5000/runplot'
+        container_url = 'http://172.17.0.3:5000/runplot'
 
         # Send the code to the Docker container
         response_plot = requests.post(container_url, data=python_code)
@@ -201,10 +201,9 @@ async def chat(auth_claims: Dict[str, Any]):
             result['choices'][0]['plot'] = base64_encoded_plot
         else:
             retries = 0
-            while retries < 10:
+            while retries < 3:
                 retries += 1
-                error_info = response_plot.json()
-                new_message = request_json["messages"] + [{"content": python_code, "role": "assistant"}, {"content": f"Your code didn't work, try again. the error was {error_info['error']}, trace was {error_info['trace']}", "role": "user"}]
+                new_message = request_json["messages"] + [{f"content": python_code, "role": "assistant"}, {"content": "Your code didn't work, try again", "role": "user"}]
                 result = await approach.run(
                     new_message,
                     stream=request_json.get("stream", False),
