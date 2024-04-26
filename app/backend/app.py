@@ -186,7 +186,7 @@ async def chat(auth_claims: Dict[str, Any]):
         python_code = result['choices'][0]['message']['content']
 
         # URL of the endpoint in the Docker container
-        container_url = 'http://172.17.0.3:5000/runplot'
+        container_url = 'http://100.100.198.251:5000/runplot'
 
         # Send the code to the Docker container
         response_plot = requests.post(container_url, data=python_code)
