@@ -186,7 +186,7 @@ async def chat(auth_claims: Dict[str, Any]):
         python_code = result['choices'][0]['message']['content']
 
         # URL of the endpoint in the Docker container
-        container_url = 'http://172.17.0.3:5000/runplot'
+        container_url = 'https://runner.nicepond-52176fbe.eastus.azurecontainerapps.io/runplot'
 
         # Send the code to the Docker container
         response_plot = requests.post(container_url, data=python_code)
@@ -203,7 +203,7 @@ async def chat(auth_claims: Dict[str, Any]):
             retries = 0
             while retries < 3:
                 retries += 1
-                new_message = request_json["messages"] + [{f"content": python_code, "role": "assistant"}, {"content": "Your code didn't work, try again", "role": "user"}]
+                new_message = request_json["messages"] + [{f"content": python_code, "role": "assistant"}, {"content": f"Your code didn't work, try again. The error was {response_plot.text}", "role": "user"}]
                 result = await approach.run(
                     new_message,
                     stream=request_json.get("stream", False),
@@ -215,6 +215,7 @@ async def chat(auth_claims: Dict[str, Any]):
                 if response_plot.status_code == 200:
                     base64_encoded_plot = b64encode(response_plot.content).decode('utf-8')
                     result['choices'][0]['plot'] = base64_encoded_plot
+                    break
             # raise Exception("Failed to generate plot")
         if isinstance(result, dict):
             return jsonify(result)
