@@ -9,9 +9,9 @@ import styles from "./Example.module.css";
 // ];
 
 const DEFAULT_EXAMPLES: string[] = [
-    "Show the waste type breakdown for Santiago, Chile",
-    "Explain methane emissions from rice cultivation.",
-    "Explain emissions from the production of aluminum."
+    "Which 10 countries produce the highest waste emissions?",
+    "Show the 10 highest emitting oil and gas sites in Nigeria.",
+    "Which countries have the highest total emissions?"
 ];
 
 const GPT4V_EXAMPLES: string[] = [
