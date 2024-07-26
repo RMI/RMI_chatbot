@@ -19,8 +19,8 @@ def send_question_to_target(
     url: str,
     parameters: dict = {},
     raise_error=False,
-    response_answer_jmespath="message.content",
-    response_context_jmespath="context.data_points.text",
+    response_answer_jmespath="choices[0].message.content",
+    response_context_jmespath="choices[0].context.data_points.text",
 ):
     headers = {"Content-Type": "application/json"}
     body = {
@@ -30,7 +30,6 @@ def send_question_to_target(
     try:
         r = requests.post(url, headers=headers, json=body)
         r.encoding = "utf-8"
-
         latency = r.elapsed.total_seconds()
 
         try:
@@ -64,6 +63,7 @@ def send_question_to_target(
             "context": str(e),
             "latency": -1,
         }
+
 
 
 def truncate_for_log(s: str, max_length=50):
